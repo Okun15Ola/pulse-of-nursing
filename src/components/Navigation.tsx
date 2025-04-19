@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
@@ -13,6 +12,19 @@ import { Button } from '@/components/ui/button';
 import { useAIAssistant } from '../contexts/AIAssistantContext';
 import { useIsMobile } from '../hooks/use-mobile';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Rocket } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+const Logo: React.FC<{ className?: string }> = ({ className }) => {
+  return (
+    <div className={cn("flex items-center space-x-2", className)}>
+      <Rocket className="h-8 w-8 text-nursing-primary" />
+      <span className="text-xl font-bold text-nursing-primary hidden md:inline">
+        Pulse of Nursing
+      </span>
+    </div>
+  );
+};
 
 const Navigation: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
@@ -35,6 +47,7 @@ const Navigation: React.FC = () => {
       <div className="hidden md:block fixed top-0 left-0 right-0 z-30 bg-white border-b border-gray-200 py-4 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center">
+            <Logo />
             <div className="flex items-center space-x-8">
               {navigationLinks.map(({ path, icon: Icon, label }) => (
                 <Link
@@ -80,28 +93,27 @@ const Navigation: React.FC = () => {
       {/* Mobile Navigation */}
       <div className="md:hidden">
         {/* Fixed Profile Section at Top for Mobile */}
-        <div className="fixed top-0 right-0 z-30 bg-white border-b border-gray-200 py-3 px-4 w-full">
-          <div className="flex justify-end">
-            <Link
-              to="/profile"
-              className={`flex items-center gap-2 ${
-                location.pathname === '/profile' 
-                  ? 'text-nursing-primary' 
-                  : 'text-gray-600'
-              }`}
-            >
-              {user?.avatar ? (
-                <Avatar className="h-8 w-8 border-2 border-nursing-primary">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback>
-                    <User className="h-4 w-4" />
-                  </AvatarFallback>
-                </Avatar>
-              ) : (
-                <User className="h-6 w-6" />
-              )}
-            </Link>
-          </div>
+        <div className="fixed top-0 right-0 z-30 bg-white border-b border-gray-200 py-3 px-4 w-full flex justify-between items-center">
+          <Logo className="md:hidden" />
+          <Link
+            to="/profile"
+            className={`flex items-center gap-2 ${
+              location.pathname === '/profile' 
+                ? 'text-nursing-primary' 
+                : 'text-gray-600'
+            }`}
+          >
+            {user?.avatar ? (
+              <Avatar className="h-8 w-8 border-2 border-nursing-primary">
+                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarFallback>
+                  <User className="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
+            ) : (
+              <User className="h-6 w-6" />
+            )}
+          </Link>
         </div>
 
         {/* Bottom Navigation for Mobile Only */}
