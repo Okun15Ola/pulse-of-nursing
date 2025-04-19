@@ -10,6 +10,7 @@ import { Message } from '../models/types';
 import { formatDistanceToNow } from 'date-fns';
 import { Send } from 'lucide-react';
 
+
 const ChatPage: React.FC = () => {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>(mockMessages);
@@ -99,7 +100,8 @@ const ChatPage: React.FC = () => {
   if (!user) return null;
   
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
+    <>
+      <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Messages</h1>
       
       <div className="flex flex-col md:flex-row h-[calc(80vh-150px)] gap-4">
@@ -244,6 +246,7 @@ const ChatPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

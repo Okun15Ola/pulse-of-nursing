@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,6 +19,7 @@ import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
+import AI from "./pages/AI";
 
 const queryClient = new QueryClient();
 
@@ -34,13 +34,17 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-// Layout with navigation
+// Layout with navigation and global AI Assistant
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Navigation />
       <div className="pt-16 pb-16 md:pb-0">{children}</div>
-      <AIAssistant />
+      
+      {/* ✅ Global AI Assistant (styled fixed, optional) */}
+      <div className="fixed bottom-4 right-4 z-50 shadow-lg rounded-xl">
+        <AIAssistant />
+      </div>
     </>
   );
 };
@@ -130,10 +134,20 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/ai"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <AI />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
           
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <AIAssistant />
       </AIAssistantProvider>
     </PostProvider>
   );

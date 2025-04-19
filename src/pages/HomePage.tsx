@@ -7,6 +7,7 @@ import CreatePostForm from '../components/CreatePostForm';
 import PostCard from '../components/PostCard';
 import { Post } from '../models/types';
 
+
 const HomePage: React.FC = () => {
   const { user, isAdmin } = useAuth();
   const { posts, getFollowingPosts } = usePost();
