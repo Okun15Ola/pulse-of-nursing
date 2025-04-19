@@ -39,7 +39,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Navigation />
-      <div className="pt-16">{children}</div>
+      <div className="pt-16 pb-16 md:pb-0">{children}</div>
       <AIAssistant />
     </>
   );
@@ -133,7 +133,6 @@ const AppContent = () => {
           
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <Navigation />
         <AIAssistant />
       </AIAssistantProvider>
     </PostProvider>

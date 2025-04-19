@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useAIAssistant } from '../contexts/AIAssistantContext';
 import { useIsMobile } from '../hooks/use-mobile';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const Navigation: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
@@ -20,28 +21,6 @@ const Navigation: React.FC = () => {
   const isMobile = useIsMobile();
 
   if (!isAuthenticated) return null;
-
-  const renderProfileSection = () => (
-    <Link
-      to="/profile"
-      className={`flex items-center gap-2 ${
-        location.pathname === '/profile' 
-          ? 'text-nursing-primary' 
-          : 'text-gray-500'
-      }`}
-    >
-      {user?.avatar ? (
-        <img
-          className="h-6 w-6 rounded-full object-cover border-2 border-nursing-primary"
-          src={user.avatar}
-          alt={user.name}
-        />
-      ) : (
-        <User className="h-6 w-6" />
-      )}
-      <span className="text-sm hidden md:inline">Profile</span>
-    </Link>
-  );
 
   const navigationLinks = [
     { path: '/', icon: Home, label: 'Home' },
@@ -52,19 +31,19 @@ const Navigation: React.FC = () => {
 
   return (
     <>
-      {/* Desktop Navigation */}
-      <nav className="hidden md:block fixed top-0 left-0 right-0 z-30 bg-white border-b border-gray-200 py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Desktop Navigation - Top Bar */}
+      <div className="hidden md:block fixed top-0 left-0 right-0 z-30 bg-white border-b border-gray-200 py-4 px-4">
+        <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center space-x-8">
               {navigationLinks.map(({ path, icon: Icon, label }) => (
                 <Link
                   key={path}
                   to={path}
                   className={`flex items-center gap-2 ${
                     location.pathname === path 
-                      ? 'text-nursing-primary' 
-                      : 'text-gray-500'
+                      ? 'text-nursing-primary font-medium' 
+                      : 'text-gray-600 hover:text-nursing-primary'
                   }`}
                 >
                   <Icon className="h-5 w-5" />
@@ -72,28 +51,67 @@ const Navigation: React.FC = () => {
                 </Link>
               ))}
             </div>
-            {renderProfileSection()}
+            
+            {/* Profile Link - Always at top on both desktop and mobile */}
+            <Link
+              to="/profile"
+              className={`flex items-center gap-2 ${
+                location.pathname === '/profile' 
+                  ? 'text-nursing-primary' 
+                  : 'text-gray-600 hover:text-nursing-primary'
+              }`}
+            >
+              {user?.avatar ? (
+                <Avatar className="h-8 w-8 border-2 border-nursing-primary">
+                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarFallback>
+                    <User className="h-4 w-4" />
+                  </AvatarFallback>
+                </Avatar>
+              ) : (
+                <User className="h-6 w-6" />
+              )}
+              <span className="text-sm">Profile</span>
+            </Link>
           </div>
         </div>
-      </nav>
+      </div>
 
       {/* Mobile Navigation */}
       <div className="md:hidden">
-        {/* Fixed Profile Section at Top */}
-        <div className="fixed top-0 right-0 z-30 bg-white border-b border-gray-200 py-4 px-4 w-full">
+        {/* Fixed Profile Section at Top for Mobile */}
+        <div className="fixed top-0 right-0 z-30 bg-white border-b border-gray-200 py-3 px-4 w-full">
           <div className="flex justify-end">
-            {renderProfileSection()}
+            <Link
+              to="/profile"
+              className={`flex items-center gap-2 ${
+                location.pathname === '/profile' 
+                  ? 'text-nursing-primary' 
+                  : 'text-gray-600'
+              }`}
+            >
+              {user?.avatar ? (
+                <Avatar className="h-8 w-8 border-2 border-nursing-primary">
+                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarFallback>
+                    <User className="h-4 w-4" />
+                  </AvatarFallback>
+                </Avatar>
+              ) : (
+                <User className="h-6 w-6" />
+              )}
+            </Link>
           </div>
         </div>
 
-        {/* Bottom Navigation */}
+        {/* Bottom Navigation for Mobile Only */}
         <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-200 py-2">
           <div className="grid grid-cols-4 gap-1">
             {navigationLinks.map(({ path, icon: Icon, label }) => (
               <Link
                 key={path}
                 to={path}
-                className={`flex flex-col items-center ${
+                className={`flex flex-col items-center py-2 ${
                   location.pathname === path 
                     ? 'text-nursing-primary' 
                     : 'text-gray-500'
