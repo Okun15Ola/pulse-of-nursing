@@ -133,6 +133,8 @@ const AppContent = () => {
           
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Navigation />
+        <AIAssistant />
       </AIAssistantProvider>
     </PostProvider>
   );
